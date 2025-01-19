@@ -1,4 +1,5 @@
-const C_TagFOTO = (tag, att = {}, children = []) => {
+// Hàm tạo phần tử:C_TagFETO (FE=>forEach,TO=>toán tử 3 ngôi)
+const C_TagFETO = (tag, att = {}, children = []) => {
   const elm = document.createElement(tag);
   Object.entries(att).forEach(([key, value]) => elm.setAttribute(key, value));
   (Array.isArray(children) ? children : [children]).forEach((child) =>
@@ -8,7 +9,20 @@ const C_TagFOTO = (tag, att = {}, children = []) => {
   );
   return elm;
 };
-
+// ***** Hoặc dùng C_TagFETO thay cho C_TagFOTO *****//
+// Hàm tạo phần tử C_TagFOTO (FO=>for...of,TO=>ternary operator)
+const C_TagFOTO = (tag, att = {}, children = []) => {
+  const elm = document.createElement(tag);
+  for (const [key, value] of Object.entries(att)) {
+    elm.setAttribute(key, value);
+  }
+  for (const child of children) {
+    elm.appendChild(
+      typeof child === "string" ? document.createTextNode(child) : child
+    );
+  }
+  return elm;
+};
 // Hàm thêm phần tử vào đầu thẻ body:
 const Pp_ToBody = (elm) => document.body.prepend(elm);
 
@@ -33,7 +47,34 @@ const C_TagTag1sTag2 = (
     ...C_ContentsTags(tag1, att1, content1s),
     C_TagFOTO(tag2, att2, content2),
   ]);
-
+// Hàm chọn phần tử:
+const Select_Tag = (tag) => {
+  const Tag = document.querySelector(tag);
+  return Tag;
+};
+// Hàm thay đổi thuộc tính cho 1 phần tử
+const Change_PropTag = (tag, att = {}) => {
+  const Tag = Select_Tag(tag);
+  if (Tag) {
+    Object.assign(Tag.style, att);
+  }
+  return Tag;
+};
+// Hàm chọn tất cả phần tử :
+const Select_Tags = (tag) => {
+  const Tags = document.querySelectorAll(tag);
+  return Tags;
+};
+// Hàm thay đổi thuộc tính các phần tử :
+const Change_PropTags = (tags, atts = {}) => {
+  const Tags = Select_Tags(tags);
+  if (Tags.length > 0) {
+    Tags.forEach((tag) => {
+      Object.assign(tag.style, atts);
+    });
+  }
+  return Tags;
+};
 // Hàm tạo khối input-box
 const inputBoxBlock = (type, iconName, id, label, extraChild = null) =>
   C_TagFOTO(
