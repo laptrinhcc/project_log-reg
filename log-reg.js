@@ -1,80 +1,22 @@
-// Hàm tạo phần tử:C_TagFETO (FE=>forEach,TO=>toán tử 3 ngôi)
-const C_TagFETO = (tag, att = {}, children = []) => {
-  const elm = document.createElement(tag);
-  Object.entries(att).forEach(([key, value]) => elm.setAttribute(key, value));
-  (Array.isArray(children) ? children : [children]).forEach((child) =>
-    elm.appendChild(
-      typeof child === "string" ? document.createTextNode(child) : child
-    )
-  );
-  return elm;
-};
-// ***** Hoặc dùng C_TagFETO thay cho C_TagFOTO *****//
-// Hàm tạo phần tử C_TagFOTO (FO=>for...of,TO=>ternary operator)
-const C_TagFOTO = (tag, att = {}, children = []) => {
-  const elm = document.createElement(tag);
-  for (const [key, value] of Object.entries(att)) {
-    elm.setAttribute(key, value);
-  }
-  for (const child of children) {
-    elm.appendChild(
-      typeof child === "string" ? document.createTextNode(child) : child
-    );
-  }
-  return elm;
-};
-// Hàm thêm phần tử vào đầu thẻ body:
-const Pp_ToBody = (elm) => document.body.prepend(elm);
+import { propAlink, propBody, propHeader, propHoverAlinkB,propHoverAlinkA, propImg, propLogo, propNavBtnLogin } from "./css.js";
+import {
+  C_TagFETO,
+  C_TagFOTO,
+  C_Tag,
+  Pp_ToBody,
+  C_TagTag1sTag2,
+  Select_Tag,
+  Change_PropTag,
+  Select_Tags,
+  Change_PropTags,
+  ChangePseudoClass_PropsTag,
+  ApC_ToHead,
+  attsToStrCss,
+  PoppinsHref,
+  loadFont,
+  applyAttsToAllElm,
+} from "./functions-all/fun.js";
 
-// Hàm thêm nội dung [contents] cho các thẻ
-const C_ContentsTags = (tag, att = {}, contents = []) =>
-  contents.map((content) => C_TagFOTO(tag, att, content));
-
-// Hàm tạo thẻ Tag chứa nhiều thẻ Tag1 và 1 thẻ Tag2
-const C_TagTag1sTag2 = (
-  tag,
-  att = {},
-  content,
-  tag1,
-  att1 = {},
-  content1s = [],
-  tag2,
-  att2 = {},
-  content2
-) =>
-  C_TagFOTO(tag, att, [
-    content,
-    ...C_ContentsTags(tag1, att1, content1s),
-    C_TagFOTO(tag2, att2, content2),
-  ]);
-// Hàm chọn phần tử:
-const Select_Tag = (tag) => {
-  const Tag = document.querySelector(tag);
-  return Tag;
-};
-// Hàm thay đổi thuộc tính cho 1 phần tử
-const Change_PropTag = (tag, att = {}) => {
-  const Tag = Select_Tag(tag);
-  if (Tag) {
-    Object.assign(Tag.style, att);
-  }
-  return Tag;
-};
-// Hàm chọn tất cả phần tử :
-const Select_Tags = (tag) => {
-  const Tags = document.querySelectorAll(tag);
-  return Tags;
-};
-// Hàm thay đổi thuộc tính các phần tử :
-const Change_PropTags = (tags, atts = {}) => {
-  const Tags = Select_Tags(tags);
-  if (Tags.length > 0) {
-    Tags.forEach((tag) => {
-      Object.assign(tag.style, atts);
-    });
-  }
-  return Tags;
-};
 // Hàm tạo khối input-box
 const inputBoxBlock = (type, iconName, id, label, extraChild = null) =>
   C_TagFOTO(
@@ -206,3 +148,31 @@ Pp_ToBody(
     ),
   ])
 );
+// ****************** CSS ***************** //
+// Gọi hàm loadFont để tải font và Gọi hàm
+// applyAttsToAllElm áp dụng các thuộc tính:
+loadFont();
+applyAttsToAllElm({
+  margin: "0",
+  padding: "0",
+  boxSizing: "border-box",
+  fontFamily: `"Poppins",sans-serif`,
+});
+propBody("flex", "center", "relative", "center", "100vh", "rgb(0, 0, 0, 0.9)");
+propHeader(
+  "fixed",
+  "0",
+  "0",
+  "100%",
+  "10px 100px",
+  "#162938",
+  "flex",
+  "space-between",
+  "center",
+  99
+);
+propLogo("relative");
+propImg("absolute", "40px", "-20px", "-60px", "50%");
+propAlink("relative","1.1em","none","500","40px")
+propHoverAlinkB("rgb(170, 170, 170, 0.4)")
+propHoverAlinkA("rgb(170, 170, 170, 0.8)");
